@@ -41,7 +41,7 @@ class GuiMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GuiMainWindow(QWidget *parent = nullptr);
+    explicit GuiMainWindow(QWidget *parent=nullptr);
     ~GuiMainWindow();
 
 private slots:
@@ -62,7 +62,7 @@ protected:
 private:
     Ui::GuiMainWindow *ui;
     XMSDOSVIEWER::OPTIONS xOptions;
-    FormatWidget::OPTIONS formatOptions;
+    FW_DEF::OPTIONS formatOptions;
 
     QFile *pFile;
 };

@@ -39,7 +39,7 @@
    <item>
     <widget class="QLabel" name="labelVersion">
      <property name="text">
-      <string>XVedogon</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
