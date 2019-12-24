@@ -43,7 +43,7 @@ DialogOptions::~DialogOptions()
 
 void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions)
 {
-    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xpeviewer.ini",QSettings::IniFormat);
+    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xmsdosviewer.ini",QSettings::IniFormat);
 
     pOptions->bScanAfterOpen=settings.value("ScanAfterOpen",true).toBool();
     pOptions->bSaveLastDirectory=settings.value("SaveLastDirectory",true).toBool();
@@ -60,7 +60,7 @@ void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions)
 
 void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions)
 {
-    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xpeviewer.ini",QSettings::IniFormat);
+    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xmsdosviewer.ini",QSettings::IniFormat);
 
     settings.setValue("ScanAfterOpen",pOptions->bScanAfterOpen);
     settings.setValue("SaveLastDirectory",pOptions->bSaveLastDirectory);
