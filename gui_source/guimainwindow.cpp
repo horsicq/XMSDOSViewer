@@ -138,8 +138,7 @@ void GuiMainWindow::processFile(QString sFileName, bool bReload)
                 ui->stackedWidgetMain->setCurrentIndex(1);
                 formatOptions.bIsImage=false;
                 formatOptions.nImageBase=-1;
-                formatOptions.sBackupFileName=XBinary::getBackupName(pFile);
-                ui->widgetViewer->setData(pFile,&formatOptions);
+                ui->widgetViewer->setData(pFile,formatOptions,0,0,0);
 
                 if(bReload)
                 {
