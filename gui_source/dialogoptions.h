@@ -22,20 +22,20 @@
 #define DIALOGOPTIONS_H
 
 #include <QDialog>
-#include <QSettings>
 #include <QDir>
+#include <QSettings>
+
 #include "../global.h"
 
 namespace Ui {
 class DialogOptions;
 }
 
-class DialogOptions : public QDialog
-{
+class DialogOptions : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DialogOptions(QWidget *parent,XMSDOSVIEWER::OPTIONS *pOptions);
+    explicit DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions);
     ~DialogOptions();
 
     static void loadOptions(XMSDOSVIEWER::OPTIONS *pOptions);
@@ -50,4 +50,4 @@ private:
     XMSDOSVIEWER::OPTIONS *pOptions;
 };
 
-#endif // DIALOGOPTIONS_H
+#endif  // DIALOGOPTIONS_H

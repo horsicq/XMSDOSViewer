@@ -19,15 +19,13 @@
 // SOFTWARE.
 //
 #include "guimainwindow.h"
+
 #include "ui_guimainwindow.h"
 
-GuiMainWindow::GuiMainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::GuiMainWindow)
-{
+GuiMainWindow::GuiMainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GuiMainWindow) {
     ui->setupUi(this);
 
-    pFile=nullptr;
+    pFile = nullptr;
 
     setWindowTitle(QString("%1 v%2").arg(X_APPLICATIONNAME).arg(X_APPLICATIONVERSION));
 
@@ -36,168 +34,136 @@ GuiMainWindow::GuiMainWindow(QWidget *parent) :
     DialogOptions::loadOptions(&xOptions);
     adjust();
 
-    if(QCoreApplication::arguments().count()>1)
-    {
-        QString sFileName=QCoreApplication::arguments().at(1);
+    if (QCoreApplication::arguments().count() > 1) {
+        QString sFileName = QCoreApplication::arguments().at(1);
 
-        processFile(sFileName,true);
+        processFile(sFileName, true);
     }
 }
 
-GuiMainWindow::~GuiMainWindow()
-{
+GuiMainWindow::~GuiMainWindow() {
     closeCurrentFile();
     DialogOptions::saveOptions(&xOptions);
     delete ui;
 }
 
-void GuiMainWindow::on_actionOpen_triggered()
-{
+void GuiMainWindow::on_actionOpen_triggered() {
     QString sDirectory;
-    if(xOptions.bSaveLastDirectory&&QDir().exists(xOptions.sLastDirectory))
-    {
-        sDirectory=xOptions.sLastDirectory;
+    if (xOptions.bSaveLastDirectory && QDir().exists(xOptions.sLastDirectory)) {
+        sDirectory = xOptions.sLastDirectory;
     }
 
-    QString sFileName=QFileDialog::getOpenFileName(this,tr("Open file..."),sDirectory,tr("All files (*)"));
+    QString sFileName = QFileDialog::getOpenFileName(this, tr("Open file..."), sDirectory, tr("All files (*)"));
 
-    if(!sFileName.isEmpty())
-    {
-        processFile(sFileName,xOptions.bScanAfterOpen);
+    if (!sFileName.isEmpty()) {
+        processFile(sFileName, xOptions.bScanAfterOpen);
     }
 }
 
-void GuiMainWindow::on_actionClose_triggered()
-{
+void GuiMainWindow::on_actionClose_triggered() {
     closeCurrentFile();
 }
 
-void GuiMainWindow::on_actionExit_triggered()
-{
+void GuiMainWindow::on_actionExit_triggered() {
     this->close();
 }
 
-void GuiMainWindow::on_actionOptions_triggered()
-{
-    DialogOptions dialogOptions(this,&xOptions);
+void GuiMainWindow::on_actionOptions_triggered() {
+    DialogOptions dialogOptions(this, &xOptions);
     dialogOptions.exec();
 
     adjust();
 }
 
-void GuiMainWindow::on_actionAbout_triggered()
-{
+void GuiMainWindow::on_actionAbout_triggered() {
     DialogAbout dialogAbout(this);
     dialogAbout.exec();
 }
 
-void GuiMainWindow::adjust()
-{
-    Qt::WindowFlags wf=windowFlags();
-    if(xOptions.bStayOnTop)
-    {
-        wf|=Qt::WindowStaysOnTopHint;
-    }
-    else
-    {
-        wf&=~(Qt::WindowStaysOnTopHint);
+void GuiMainWindow::adjust() {
+    Qt::WindowFlags wf = windowFlags();
+    if (xOptions.bStayOnTop) {
+        wf |= Qt::WindowStaysOnTopHint;
+    } else {
+        wf &= ~(Qt::WindowStaysOnTopHint);
     }
     setWindowFlags(wf);
 
     show();
 }
 
-void GuiMainWindow::processFile(QString sFileName, bool bReload)
-{
-    if((sFileName!="")&&(QFileInfo(sFileName).isFile()))
-    {
-        if(xOptions.bSaveLastDirectory)
-        {
+void GuiMainWindow::processFile(QString sFileName, bool bReload) {
+    if ((sFileName != "") && (QFileInfo(sFileName).isFile())) {
+        if (xOptions.bSaveLastDirectory) {
             QFileInfo fi(sFileName);
-            xOptions.sLastDirectory=fi.absolutePath();
+            xOptions.sLastDirectory = fi.absolutePath();
         }
         closeCurrentFile();
 
-        pFile=new QFile;
+        pFile = new QFile;
 
         pFile->setFileName(sFileName);
 
-        if(!pFile->open(QIODevice::ReadWrite))
-        {
-            if(!pFile->open(QIODevice::ReadOnly))
-            {
+        if (!pFile->open(QIODevice::ReadWrite)) {
+            if (!pFile->open(QIODevice::ReadOnly)) {
                 closeCurrentFile();
             }
         }
 
-        if(pFile)
-        {
+        if (pFile) {
             XMSDOS msdos(pFile);
-            if(msdos.isValid())
-            {
+            if (msdos.isValid()) {
                 ui->stackedWidgetMain->setCurrentIndex(1);
-                formatOptions.bIsImage=false;
-                formatOptions.nImageBase=-1;
-                ui->widgetViewer->setData(pFile,formatOptions,0,0,0);
+                formatOptions.bIsImage = false;
+                formatOptions.nImageBase = -1;
+                ui->widgetViewer->setData(pFile, formatOptions, 0, 0, 0);
 
-                if(bReload)
-                {
+                if (bReload) {
                     ui->widgetViewer->reload();
                 }
 
                 setWindowTitle(sFileName);
+            } else {
+                QMessageBox::critical(this, tr("Error"), tr("It is not a valid MSDOS file!"));
             }
-            else
-            {
-                QMessageBox::critical(this,tr("Error"),tr("It is not a valid MSDOS file!"));
-            }
-        }
-        else
-        {
-            QMessageBox::critical(this,tr("Error"),tr("Cannot open the file!"));
+        } else {
+            QMessageBox::critical(this, tr("Error"), tr("Cannot open the file!"));
         }
     }
 }
 
-void GuiMainWindow::closeCurrentFile()
-{
+void GuiMainWindow::closeCurrentFile() {
     ui->stackedWidgetMain->setCurrentIndex(0);
 
-    if(pFile)
-    {
+    if (pFile) {
         pFile->close();
         delete pFile;
-        pFile=nullptr;
+        pFile = nullptr;
     }
 
     setWindowTitle(QString("%1 v%2").arg(X_APPLICATIONNAME).arg(X_APPLICATIONVERSION));
 }
 
-void GuiMainWindow::dragEnterEvent(QDragEnterEvent *event)
-{
+void GuiMainWindow::dragEnterEvent(QDragEnterEvent *event) {
     event->acceptProposedAction();
 }
 
-void GuiMainWindow::dragMoveEvent(QDragMoveEvent *event)
-{
+void GuiMainWindow::dragMoveEvent(QDragMoveEvent *event) {
     event->acceptProposedAction();
 }
 
-void GuiMainWindow::dropEvent(QDropEvent *event)
-{
-    const QMimeData* mimeData=event->mimeData();
+void GuiMainWindow::dropEvent(QDropEvent *event) {
+    const QMimeData *mimeData = event->mimeData();
 
-    if(mimeData->hasUrls())
-    {
-        QList<QUrl> urlList=mimeData->urls();
+    if (mimeData->hasUrls()) {
+        QList<QUrl> urlList = mimeData->urls();
 
-        if(urlList.count())
-        {
-            QString sFileName=urlList.at(0).toLocalFile();
+        if (urlList.count()) {
+            QString sFileName = urlList.at(0).toLocalFile();
 
-            sFileName=XBinary::convertFileName(sFileName);
+            sFileName = XBinary::convertFileName(sFileName);
 
-            processFile(sFileName,xOptions.bScanAfterOpen);
+            processFile(sFileName, xOptions.bScanAfterOpen);
         }
     }
 }

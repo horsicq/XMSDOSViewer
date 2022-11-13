@@ -28,16 +28,14 @@
 #define X_ORGANIZATIONNAME "NTInfo"
 #define X_ORGANIZATIONDOMAIN "ntinfo.biz"
 
-namespace XMSDOSVIEWER
-{
-    struct OPTIONS
-    {
-        bool bScanAfterOpen;
-        bool bSaveLastDirectory;
-        QString sLastDirectory;
-        bool bStayOnTop;
-        bool bSaveBackup;
-    };
-}
+namespace XMSDOSVIEWER {
+struct OPTIONS {
+    bool bScanAfterOpen;
+    bool bSaveLastDirectory;
+    QString sLastDirectory;
+    bool bStayOnTop;
+    bool bSaveBackup;
+};
+}  // namespace XMSDOSVIEWER
 
-#endif // _GLOBAL_H
+#endif  // _GLOBAL_H

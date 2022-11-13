@@ -18,16 +18,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#include "guimainwindow.h"
 #include <QApplication>
 #include <QStyleFactory>
 
-int main(int argc, char *argv[])
-{
+#include "guimainwindow.h"
+
+int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef Q_OS_MAC
 #ifndef QT_DEBUG
-   QCoreApplication::setLibraryPaths(QStringList(QString(argv[0]).remove("MacOS/xmsdosviewer")+"PlugIns"));
+    QCoreApplication::setLibraryPaths(QStringList(QString(argv[0]).remove("MacOS/xmsdosviewer") + "PlugIns"));
 #endif
 #endif
     QCoreApplication::setOrganizationName(X_ORGANIZATIONNAME);

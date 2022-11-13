@@ -19,15 +19,13 @@
 // SOFTWARE.
 //
 #include "dialogoptions.h"
+
 #include "ui_dialogoptions.h"
 
-DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) :
-    QDialog(parent),
-    ui(new Ui::DialogOptions)
-{
+DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) : QDialog(parent), ui(new Ui::DialogOptions) {
     ui->setupUi(this);
 
-    this->pOptions=pOptions;
+    this->pOptions = pOptions;
 
     ui->checkBoxScanAfterOpen->setChecked(pOptions->bScanAfterOpen);
     ui->checkBoxSaveLastDirectory->setChecked(pOptions->bSaveLastDirectory);
@@ -36,52 +34,46 @@ DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) :
     ui->checkBoxSaveBackup->setChecked(pOptions->bSaveBackup);
 }
 
-DialogOptions::~DialogOptions()
-{
+DialogOptions::~DialogOptions() {
     delete ui;
 }
 
-void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions)
-{
-    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xmsdosviewer.ini",QSettings::IniFormat);
+void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
+    QSettings settings(QApplication::applicationDirPath() + QDir::separator() + "xmsdosviewer.ini", QSettings::IniFormat);
 
-    pOptions->bScanAfterOpen=settings.value("ScanAfterOpen",true).toBool();
-    pOptions->bSaveLastDirectory=settings.value("SaveLastDirectory",true).toBool();
-    pOptions->sLastDirectory=settings.value("LastDirectory","").toString();
+    pOptions->bScanAfterOpen = settings.value("ScanAfterOpen", true).toBool();
+    pOptions->bSaveLastDirectory = settings.value("SaveLastDirectory", true).toBool();
+    pOptions->sLastDirectory = settings.value("LastDirectory", "").toString();
 
-    pOptions->bStayOnTop=settings.value("StayOnTop",false).toBool();
-    pOptions->bSaveBackup=settings.value("SaveBackup",true).toBool();
+    pOptions->bStayOnTop = settings.value("StayOnTop", false).toBool();
+    pOptions->bSaveBackup = settings.value("SaveBackup", true).toBool();
 
-    if(!QDir(pOptions->sLastDirectory).exists())
-    {
-        pOptions->sLastDirectory="";
+    if (!QDir(pOptions->sLastDirectory).exists()) {
+        pOptions->sLastDirectory = "";
     }
 }
 
-void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions)
-{
-    QSettings settings(QApplication::applicationDirPath()+QDir::separator()+"xmsdosviewer.ini",QSettings::IniFormat);
+void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
+    QSettings settings(QApplication::applicationDirPath() + QDir::separator() + "xmsdosviewer.ini", QSettings::IniFormat);
 
-    settings.setValue("ScanAfterOpen",pOptions->bScanAfterOpen);
-    settings.setValue("SaveLastDirectory",pOptions->bSaveLastDirectory);
-    settings.setValue("LastDirectory",pOptions->sLastDirectory);
+    settings.setValue("ScanAfterOpen", pOptions->bScanAfterOpen);
+    settings.setValue("SaveLastDirectory", pOptions->bSaveLastDirectory);
+    settings.setValue("LastDirectory", pOptions->sLastDirectory);
 
-    settings.setValue("StayOnTop",pOptions->bStayOnTop);
-    settings.setValue("SaveBackup",pOptions->bSaveBackup);
+    settings.setValue("StayOnTop", pOptions->bStayOnTop);
+    settings.setValue("SaveBackup", pOptions->bSaveBackup);
 }
 
-void DialogOptions::on_pushButtonOK_clicked()
-{
-    pOptions->bScanAfterOpen=ui->checkBoxScanAfterOpen->isChecked();
-    pOptions->bSaveLastDirectory=ui->checkBoxSaveLastDirectory->isChecked();
-    pOptions->bStayOnTop=ui->checkBoxStayOnTop->isChecked();
-    pOptions->bSaveBackup=ui->checkBoxSaveBackup->isChecked();
+void DialogOptions::on_pushButtonOK_clicked() {
+    pOptions->bScanAfterOpen = ui->checkBoxScanAfterOpen->isChecked();
+    pOptions->bSaveLastDirectory = ui->checkBoxSaveLastDirectory->isChecked();
+    pOptions->bStayOnTop = ui->checkBoxStayOnTop->isChecked();
+    pOptions->bSaveBackup = ui->checkBoxSaveBackup->isChecked();
 
     saveOptions(pOptions);
     this->close();
 }
 
-void DialogOptions::on_pushButtonCancel_clicked()
-{
+void DialogOptions::on_pushButtonCancel_clicked() {
     this->close();
 }
