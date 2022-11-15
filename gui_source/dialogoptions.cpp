@@ -22,7 +22,8 @@
 
 #include "ui_dialogoptions.h"
 
-DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) : QDialog(parent), ui(new Ui::DialogOptions) {
+DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) : QDialog(parent), ui(new Ui::DialogOptions)
+{
     ui->setupUi(this);
 
     this->pOptions = pOptions;
@@ -34,11 +35,13 @@ DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) :
     ui->checkBoxSaveBackup->setChecked(pOptions->bSaveBackup);
 }
 
-DialogOptions::~DialogOptions() {
+DialogOptions::~DialogOptions()
+{
     delete ui;
 }
 
-void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
+void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions)
+{
     QSettings settings(QApplication::applicationDirPath() + QDir::separator() + "xmsdosviewer.ini", QSettings::IniFormat);
 
     pOptions->bScanAfterOpen = settings.value("ScanAfterOpen", true).toBool();
@@ -53,7 +56,8 @@ void DialogOptions::loadOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
     }
 }
 
-void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
+void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions)
+{
     QSettings settings(QApplication::applicationDirPath() + QDir::separator() + "xmsdosviewer.ini", QSettings::IniFormat);
 
     settings.setValue("ScanAfterOpen", pOptions->bScanAfterOpen);
@@ -64,7 +68,8 @@ void DialogOptions::saveOptions(XMSDOSVIEWER::OPTIONS *pOptions) {
     settings.setValue("SaveBackup", pOptions->bSaveBackup);
 }
 
-void DialogOptions::on_pushButtonOK_clicked() {
+void DialogOptions::on_pushButtonOK_clicked()
+{
     pOptions->bScanAfterOpen = ui->checkBoxScanAfterOpen->isChecked();
     pOptions->bSaveLastDirectory = ui->checkBoxSaveLastDirectory->isChecked();
     pOptions->bStayOnTop = ui->checkBoxStayOnTop->isChecked();
@@ -74,6 +79,7 @@ void DialogOptions::on_pushButtonOK_clicked() {
     this->close();
 }
 
-void DialogOptions::on_pushButtonCancel_clicked() {
+void DialogOptions::on_pushButtonCancel_clicked()
+{
     this->close();
 }
