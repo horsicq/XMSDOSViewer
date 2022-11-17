@@ -22,7 +22,8 @@
 
 #include "ui_dialogoptions.h"
 
-DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions) : QDialog(parent), ui(new Ui::DialogOptions)
+DialogOptions::DialogOptions(QWidget *parent, XMSDOSVIEWER::OPTIONS *pOptions)
+    : QDialog(parent), ui(new Ui::DialogOptions)
 {
     ui->setupUi(this);
 
